@@ -3,3 +3,4 @@ target/
 *.iml
 *.zip
 algs4-data/
+*.class
