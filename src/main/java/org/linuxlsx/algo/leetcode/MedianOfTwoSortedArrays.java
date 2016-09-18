@@ -1,11 +1,14 @@
 package org.linuxlsx.algo.leetcode;
 
 /**
+ *
+ * Solution of <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/">Median of Two Sorted Arrays</a>
+ *
  * There are two sorted arrays nums1 and nums2 of size m and n respectively.
  *   Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
  *
  *
- * Created by rongruo.lsx on 16/9/9.
+ * Created by linuxlsx on 16/9/9.
  */
 public class MedianOfTwoSortedArrays {
 
