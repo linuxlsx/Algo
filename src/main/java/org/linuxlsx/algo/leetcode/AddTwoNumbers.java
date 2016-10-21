@@ -17,7 +17,7 @@ public class AddTwoNumbers {
      *     <li>空间复杂度 O(n+1) n为最长列表的长度</li>
      *</ul>
      *
-     * @see <a href="https://leetcode.com/articles/add-two-numbers/">Solution</a>
+     * @see <a href="https://github.com/haoel/leetcode/tree/master/algorithms/cpp/addTwoNumbers/">Solution</a>
      *
      * @param first     第一个列表
      * @param second    第二个列表
