@@ -8,7 +8,7 @@ public class ContainerWithMostWater {
 
 
     /**
-     * 思路: <p> 了解题目意图后可以简化为求面积的问题。对于线(i, ai) (j, aj)  j > i, 那么这两条先与X轴的面积为:
+     * 思路: <p> 了解题目意图后可以简化为求面积的问题。对于线(i, ai) (j, aj)  j > i, 那么这两条线与X轴的面积为:
      *      <strong>(j-i)*min(ai, aj)</strong> 。 所以简单的办法是计算出所有线两两组合后的面积，再取其中的最大值。
      *      但是这个算法的复杂度就变成了 O(n^2) 了，显然不符合预期。 </p>
      *
@@ -20,7 +20,7 @@ public class ContainerWithMostWater {
      *
      *      <ul>
      *          <li>算法复杂度 : O(n) </li>
-     *          <li>空间复杂度: O(1) 只需要三个变量</li>
+     *          <li>空间复杂度: O(3) 只需要三个变量</li>
      *      </ul>
      * @param height
      * @return      最大的面积值

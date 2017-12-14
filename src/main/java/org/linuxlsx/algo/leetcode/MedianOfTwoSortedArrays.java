@@ -17,7 +17,7 @@ public class MedianOfTwoSortedArrays {
      *
      * <ul>
      *     <li>算法复杂度 O(m+n) 所以这个算法不满足条件的要求, 虽然能够通过leetcode 的判定</li>
-     *     <li>控件复杂度 O(m+n) 需要额外的一个数组</li>
+     *     <li>空间复杂度 O(m+n) 需要额外的一个数组</li>
      * </ul>
      *
      *

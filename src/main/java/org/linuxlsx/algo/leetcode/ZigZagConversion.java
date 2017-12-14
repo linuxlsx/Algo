@@ -50,19 +50,19 @@ public class ZigZagConversion {
             map.put(i, new StringBuilder());
         }
 
-        int col = 0;
+        int row = 0;
         boolean down = false;
         for (int i = 0; i < s.length(); i++) {
-            if(col == (numRows - 1) ){
+            if(row == (numRows - 1) ){
                 down = !down;
-            }else if(col == 0){
+            }else if(row == 0){
                 down = !down;
             }
-            map.get(col).append(s.charAt(i));
+            map.get(row).append(s.charAt(i));
             if(down){
-                col++;
+                row++;
             }else {
-                col--;
+                row--;
             }
 
         }
@@ -79,6 +79,6 @@ public class ZigZagConversion {
     public static void main(String[] args) {
         ZigZagConversion zzc = new ZigZagConversion();
 
-        System.out.println(zzc.convert("AB", 1));
+        System.out.println(zzc.convert("PAYPALISHIRING", 3));
     }
 }
