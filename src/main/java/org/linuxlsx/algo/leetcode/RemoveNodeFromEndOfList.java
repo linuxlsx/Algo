@@ -77,11 +77,37 @@ public class RemoveNodeFromEndOfList {
 
     }
 
+    public ListNode reverseList(ListNode head){
+
+
+        //initialization
+        ListNode previousNode = null;
+        ListNode nextNode = null;
+
+        while (head != null) {
+            //save the next node
+            nextNode = head.next;
+            //update the value of "next"
+            head.next = previousNode;
+            //shift the pointers
+            previousNode = head;
+            head = nextNode;
+        }
+        return previousNode;
+    }
+
     public static class ListNode {
         int val;
         ListNode next;
 
         ListNode(int x) { val = x; }
+
+        @Override
+        public String toString() {
+            return "ListNode{" +
+                    "val=" + val +
+                    '}';
+        }
     }
 
     public static void main(String[] args) {
@@ -96,7 +122,7 @@ public class RemoveNodeFromEndOfList {
         listNode4.next = listNode5;
 
         RemoveNodeFromEndOfList removeNodeFromEndOfList = new RemoveNodeFromEndOfList();
-        ListNode result = removeNodeFromEndOfList.removeNthFromEndV2(listNode, 2);
+        ListNode result = removeNodeFromEndOfList.reverseList(listNode);
 
         while (result != null) {
             System.out.print(result.val + " ");
