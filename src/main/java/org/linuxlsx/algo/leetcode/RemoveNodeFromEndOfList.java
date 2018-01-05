@@ -69,7 +69,7 @@ public class RemoveNodeFromEndOfList {
             n--;
         }
 
-        //slowNode.next != null 那么 slowNode.next 就是要删除的节点
+        //slowNode.children != null 那么 slowNode.children 就是要删除的节点
         if (slowNode.next != null) {
             slowNode.next = slowNode.next.next;
         }
@@ -85,9 +85,9 @@ public class RemoveNodeFromEndOfList {
         ListNode nextNode = null;
 
         while (head != null) {
-            //save the next node
+            //save the children node
             nextNode = head.next;
-            //update the value of "next"
+            //update the value of "children"
             head.next = previousNode;
             //shift the pointers
             previousNode = head;

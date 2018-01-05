@@ -13,17 +13,17 @@ import java.util.LinkedList;
  */
 public class MarkSweepAlgo {
 
-    private MarkSweepHeap heap;
+    protected MarkSweepHeap heap;
 
     /**
      * 表示GC 的根
      */
-    private LinkedList<MarkSweepObj> roots = new LinkedList<MarkSweepObj>();
+    protected LinkedList<MarkSweepObj> roots = new LinkedList<MarkSweepObj>();
 
     /**
      * 表示已经分配过的对象列表
      */
-    private LinkedList<MarkSweepObj> allocatedObjList = new LinkedList<MarkSweepObj>();
+    protected LinkedList<MarkSweepObj> allocatedObjList = new LinkedList<MarkSweepObj>();
 
     public MarkSweepAlgo(int size, int fitStrategy) {
         heap = new MarkSweepHeap(size, fitStrategy);
@@ -63,8 +63,8 @@ public class MarkSweepAlgo {
     private void mark(MarkSweepObj obj) {
         if (!obj.marked) {
             obj.marked = true;
-            if (!obj.next.isEmpty()) {
-                for (MarkSweepObj child : obj.next) {
+            if (!obj.children.isEmpty()) {
+                for (MarkSweepObj child : obj.children) {
                     mark(child);
                 }
             }
@@ -105,15 +105,15 @@ public class MarkSweepAlgo {
             slot = heap.applySlot(size);
 
             if (slot == null) {
-                System.out.println(String.format("MarkSweep GC Fail Heap totalSize(%d) usedSize(%d) usableSlot: %s", heap.getSize(), heap.getAllocatedSize(), heap.getEmptyListStr()));
-                throw new OutOfMemoryError("oh, out of memory!");
+                System.out.println(String.format("MarkSweep GC Fail Heap total(%d) used(%d) usableSlot: %s", heap.getSize(), heap.getAllocatedSize(), heap.getEmptyListStr()));
+                throw new OutOfMemoryError("------ oh, out of memory! ------");
             }
         }
 
 
         MarkSweepObj obj = initObj(slot);
         allocatedObjList.add(obj);
-        System.out.println(String.format("MarkSweepGC Allocate obj(%d) start(%d) size(%d) totalSize(%d) usedSize(%d)", obj.hashCode(), obj.start, obj.size, heap.getSize(), heap.getAllocatedSize()));
+        System.out.println(String.format("Allocate obj(%d) start(%d) size(%d) total(%d) used(%d)", obj.hashCode(), obj.start, obj.size, heap.getSize(), heap.getAllocatedSize()));
 
         return obj;
     }

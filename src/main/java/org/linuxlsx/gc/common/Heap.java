@@ -20,17 +20,17 @@ public class Heap {
     /**
      * 整个堆得大小
      */
-    private int size;
+    protected int size;
 
     /**
      * 整个堆已经分配的大小
      */
-    private int allocatedSize;
+    protected int allocatedSize;
 
     /**
      * 堆得分配策略
      */
-    private int fitStrategy;
+    protected int fitStrategy;
 
     public static final int FIRST_FIT_STRATEGY = 1;
     public static final int BEST_FIT_STRATEGY = 2;
@@ -40,6 +40,9 @@ public class Heap {
      * 空闲Slot的列表
      */
     protected LinkedList<Slot> emptyList = new LinkedList<Slot>();
+
+    public Heap() {
+    }
 
     public Heap(int size, int fitStrategy) {
         this.size = size;

@@ -15,6 +15,9 @@ import java.util.LinkedList;
  */
 public class MarkSweepHeap extends Heap{
 
+    public MarkSweepHeap() {
+    }
+
     public MarkSweepHeap(int size, int fitStrategy) {
         super(size, fitStrategy);
     }

@@ -24,5 +24,5 @@ public class Obj {
     /**
      * 用来表示对象之间的引用关系
      */
-    public LinkedList<MarkSweepObj> next = new LinkedList<MarkSweepObj>();
+    public LinkedList<MarkSweepObj> children = new LinkedList<MarkSweepObj>();
 }
