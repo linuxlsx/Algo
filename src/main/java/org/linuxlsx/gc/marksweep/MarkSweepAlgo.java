@@ -1,5 +1,6 @@
 package org.linuxlsx.gc.marksweep;
 
+import org.linuxlsx.gc.common.Obj;
 import org.linuxlsx.gc.common.Slot;
 
 import java.util.Iterator;
@@ -64,8 +65,8 @@ public class MarkSweepAlgo {
         if (!obj.marked) {
             obj.marked = true;
             if (!obj.children.isEmpty()) {
-                for (MarkSweepObj child : obj.children) {
-                    mark(child);
+                for (Obj child : obj.children) {
+                    mark((MarkSweepObj) child);
                 }
             }
         }
