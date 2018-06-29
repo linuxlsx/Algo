@@ -1,7 +1,9 @@
 package org.linuxlsx.algo.leetcode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Solution of <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/">Remove Nth Node
@@ -77,6 +79,29 @@ public class RemoveNodeFromEndOfList {
 
     }
 
+    public ListNode removeNthFromEndV3(ListNode head, int n) {
+        ListNode node = head;
+        Map<Integer, ListNode> keepMap = new HashMap<Integer, ListNode>();
+        int count = 0;
+        while (node.next != null) {
+            keepMap.put(count, node);
+
+            count ++;
+            node = node.next;
+        }
+
+        if (n < count) {
+            keepMap.get(count - n - 1).next = keepMap.get(count - n + 1);
+        } else if (n == count) {
+            head = keepMap.get(1);
+        } else {
+            System.out.println("n cannot be larger than List size.");
+        }
+
+        return head;
+
+    }
+
     public ListNode reverseList(ListNode head){
 
 
@@ -122,6 +147,7 @@ public class RemoveNodeFromEndOfList {
         listNode4.next = listNode5;
 
         RemoveNodeFromEndOfList removeNodeFromEndOfList = new RemoveNodeFromEndOfList();
+        ListNode listNodeResult = removeNodeFromEndOfList.removeNthFromEndV3(listNode, 5);
         ListNode result = removeNodeFromEndOfList.reverseList(listNode);
 
         while (result != null) {
@@ -129,5 +155,14 @@ public class RemoveNodeFromEndOfList {
 
             result = result.next;
         }
+
+        new Thread(new Runnable() {
+            public void run() {
+                while (true){
+                    System.out.println("hello");
+                }
+            }
+        }).start();
+
     }
 }

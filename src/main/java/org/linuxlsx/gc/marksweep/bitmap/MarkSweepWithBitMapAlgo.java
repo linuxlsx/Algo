@@ -1,5 +1,6 @@
 package org.linuxlsx.gc.marksweep.bitmap;
 
+import org.linuxlsx.gc.common.Obj;
 import org.linuxlsx.gc.common.Slot;
 import org.linuxlsx.gc.marksweep.MarkSweepAlgo;
 import org.linuxlsx.gc.marksweep.MarkSweepObj;
@@ -49,8 +50,8 @@ public class MarkSweepWithBitMapAlgo extends MarkSweepAlgo {
         if ((bitmapTable[index] & (1 << offset)) == 0) {
             //将对象对应的标志位置为 1
             bitmapTable[index] |= (1 << offset);
-            for (MarkSweepObj child : obj.children) {
-                mark(child);
+            for (Obj child : obj.children) {
+                mark((MarkSweepObj) child);
             }
         }
     }
