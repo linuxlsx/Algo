@@ -4,10 +4,16 @@ package org.linuxlsx.algo.leetcode;
  * Solution of <a href="https://leetcode.com/problems/valid-parentheses/description/">Valid Parentheses</a>
  *
  * @author linuxlsx
- * @date 2017/12/09
+ * @date 2018/06/29
  */
 public class ValidParentheses {
 
+    /**
+     * 主要使用到的数据结构是栈，碰到')', ']', '}' 就将栈顶的元素取出看是否与当前的匹配，如果匹配就移除栈顶的元素，继续下一个
+     * 知道栈为空。否则就直接返回不匹配
+     * @param s
+     * @return
+     */
     public boolean isValid(String s) {
 
         if(s.length() == 0){
