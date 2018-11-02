@@ -46,8 +46,6 @@ public class MarkSweepAlgo {
 
         System.out.println(String.format("MarkSweep GC Result Heap totalSize(%d) usedSize(%d > %d) time %d ns", heap.getSize(), beforeGC, endGC, (end - start)));
 
-
-
     }
 
     public void combine(){

@@ -1,7 +1,7 @@
 package org.linuxlsx.algo.leetcode;
 
 /**
- * @author rongruo.lsx
+ * @author linuxlsx
  * @date 2018/8/16
  */
 public class DivideTwoIntegers {

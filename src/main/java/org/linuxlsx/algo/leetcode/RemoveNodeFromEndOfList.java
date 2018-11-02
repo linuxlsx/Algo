@@ -147,22 +147,14 @@ public class RemoveNodeFromEndOfList {
         listNode4.next = listNode5;
 
         RemoveNodeFromEndOfList removeNodeFromEndOfList = new RemoveNodeFromEndOfList();
-        ListNode listNodeResult = removeNodeFromEndOfList.removeNthFromEndV3(listNode, 5);
-        ListNode result = removeNodeFromEndOfList.reverseList(listNode);
+        ListNode listNodeResult = removeNodeFromEndOfList.removeNthFromEndV2(listNode, 5);
+        //ListNode result = removeNodeFromEndOfList.reverseList(listNode);
 
-        while (result != null) {
-            System.out.print(result.val + " ");
+        while (listNodeResult != null) {
+            System.out.print(listNodeResult.val + " ");
 
-            result = result.next;
+            listNodeResult = listNodeResult.next;
         }
-
-        new Thread(new Runnable() {
-            public void run() {
-                while (true){
-                    System.out.println("hello");
-                }
-            }
-        }).start();
 
     }
 }

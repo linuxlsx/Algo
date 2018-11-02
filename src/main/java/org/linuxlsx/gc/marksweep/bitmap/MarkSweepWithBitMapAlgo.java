@@ -10,6 +10,7 @@ import java.util.Iterator;
 /**
  *
  * 使用位图标记来标记对象，兼容COW(copy-on-write)
+ * 将对象的标记从对象头移动到位图表中。位图表中的一位代表了内存中的一个字。
  *
  * @author linuxlsx
  * @date 2017/12/28

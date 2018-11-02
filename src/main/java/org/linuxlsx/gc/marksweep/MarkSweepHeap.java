@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 
 /**
- * 为了支持标记清除算法针对于堆得扩展
+ * 为了支持标记清除算法针对于堆的扩展
  *
  * @author linuxlsx
  * @date 2017/12/28
@@ -30,19 +30,17 @@ public class MarkSweepHeap extends Heap{
         LinkedList<Slot> copyList = new LinkedList<Slot>();
 
         //首先按照起始位置给列表排个序
-        Collections.sort(emptyList, new Comparator<Slot>() {
-            public int compare(Slot first, Slot second) {
+        Collections.sort(emptyList, (first, second) -> {
 
-                if(first.start < second.start){
-                    return -1;
-                }
-
-                if(first.start > second.start){
-                    return 1;
-                }
-
-                return 0;
+            if(first.start < second.start){
+                return -1;
             }
+
+            if(first.start > second.start){
+                return 1;
+            }
+
+            return 0;
         });
 
         Slot slot = emptyList.poll();
