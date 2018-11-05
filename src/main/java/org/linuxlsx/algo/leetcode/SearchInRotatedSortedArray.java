@@ -35,6 +35,48 @@ public class SearchInRotatedSortedArray {
         return searchHalf(nums, target, midIndex + 1, nums.length - 1);
     }
 
+
+    /**
+     * 最快的版本，6ms. 省去了递归查找临界点的开销
+     * from : <a href='https://leetcode.com/problems/search-in-rotated-sorted-array/discuss/188887/6ms-runtime-beats-100-of-Java-submissions'>Java 6ms Solution</a>
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int searchV2(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        int left = 0, right = nums.length-1;
+
+        while(left<right){
+            int mid = left + (right-left)/2;
+            if(nums[mid] == target) {
+                return mid;
+            }
+            if(nums[left] == target) {
+                return left;
+            }
+            if(nums[right] == target) {
+                return right;
+            }
+            if(nums[mid] > nums[left]){
+                if(nums[mid] > target && nums[left] < target) {
+                    right = mid;
+                } else {
+                    left = mid+1;
+                }
+            } else {
+                if(nums[mid] < target && nums[right] > target) {
+                    left = mid+1;
+                } else {
+                    right = mid;
+                }
+            }
+        }
+        return nums[left] == target ? left : -1;
+    }
+
     /**
      *  转换以后的数组被二分以后，只可能有两种情况：一个是完全有序的子数组，另外一个是部分有序的数组（先升序，到临界点，再升序）。
      *  有序的数组 nums[end] > nums[start] , 部分有序的数组  nums[end] < nums[start]
