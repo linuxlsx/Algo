@@ -3,6 +3,8 @@ package org.linuxlsx.algo.leetcode;
 /**
  * Solution of <a href='https://leetcode.com/problems/search-insert-position/'>Search Insert Position</a>
  *
+ * @tag  BinarySearch
+ *
  * @author linuxlsx
  * @date 2019-03-21
  */
