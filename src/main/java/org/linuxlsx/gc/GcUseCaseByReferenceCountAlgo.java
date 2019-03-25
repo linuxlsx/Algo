@@ -32,12 +32,11 @@ public class GcUseCaseByReferenceCountAlgo {
             algo.makeItToRoot(obj4);
             ReferenceCountObj obj5 = algo.newObj(2);
             ReferenceCountObj obj6 = algo.newObj(3);
-            obj4.children.add(obj5);
+
             algo.reference(obj4, obj5);
             algo.reference(obj4, obj6);
 
             algo.deReference( null, obj1);
-
 
             ReferenceCountObj obj7 = algo.newObj(2);
             algo.reference(obj6, obj7);
