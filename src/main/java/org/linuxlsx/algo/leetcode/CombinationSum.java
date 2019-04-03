@@ -25,7 +25,7 @@ public class CombinationSum {
      * 最终结果是 6ms  beats 92%
      *
      * 分析了排在更前面的实现，发现主要的差异就是他们用List替代了Stack
-     * 来保存中间状态，这样可以减少一个subList的操作。
+     * 来保存中间状态，这样可以减少一个subList的操作。基本上可以到2ms
      *
      * @param candidates
      * @param target
