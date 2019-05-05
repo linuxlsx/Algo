@@ -1,119 +1,82 @@
 package org.linuxlsx.algo.leetcode;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
+ * Solution of <a href='https://leetcode.com/problems/wildcard-matching/'>Wildcard Matching</a>
+ *
+ * @tag  动态规划
  * @author linuxlsx
  * @date 2019-04-22
  */
 public class WildcardMatching {
 
+
+    /**
+     * 空间复杂度为 O(mn)的版本，使用了二维数组
+     * @param s
+     * @param p
+     * @return
+     */
     public boolean isMatch(String s, String p) {
-        List<Automata> list = new ArrayList<>();
-        for (int i = 0; i < p.length(); i++) {
-            if(p.charAt(i) == '*'){
-                Automata automata = new Automata();
-                automata.p = p.charAt(i);
-                StringBuilder sb = new StringBuilder();
-                //过滤掉重复的 '*'
-                while (i < p.length() - 1){
-                    if(p.charAt(i+1) == '*'){
-                        i++;
-                    }else {
-                        break;
-                    }
-                }
 
-                while (i < p.length() - 1){
-                    if(p.charAt(i + 1) != '?' && p.charAt(i + 1) != '*'){
-                        sb.append(p.charAt(++i));
-                    }else {
-                        break;
-                    }
-                }
-                automata.postFix = sb.toString();
-                list.add(automata);
-            }else {
-                Automata automata = new Automata();
-                automata.p = p.charAt(i);
-                list.add(automata);
+        boolean[][] match = new boolean[s.length() + 1][p.length() + 1];
+        match[0][0] = true;
+
+        // 初始化空串的匹配。
+        for (int i = 1; i <= p.length(); i++) {
+            if (p.charAt(i - 1) == '*') {
+                match[0][i] = match[0][i - 1];
             }
         }
 
-        int i = 0;
-
-        Iterator<Automata> iterator = list.iterator();
-
-        while (iterator.hasNext()){
-
-            Automata automata = iterator.next();
-
-            // 到这里说明 s 被消费完了 p 还有剩余
-            if(i == s.length()){
-                break;
-            }
-
-            if(automata.p == '*'){
-                //如果是 '*' 则使用贪婪模式，先将所有剩余字符消费掉，然后在从后往前匹配 postFix,
-                //找到右的位置即为 '*' 的匹配结束位置
-
-                //如果 '*' 后面没有跟 postFix : 有可能是p的最后一个字符，也有可能是 * 后面紧跟了 ?
-                //因为连续的 ** 会被合并成 *
-                if("".equals(automata.postFix)){
-                    if(iterator.hasNext()){
-
-                    }else {
-                        //这个说明 * 是 p 的最后一个字符
-                        i = s.length();
-                    }
-                }else {
-                    int j = s.substring(i).lastIndexOf(automata.postFix);
-                    if(j < 0){
-                        return false;
-                    }
-
-                    //设置新的待匹配的位置
-                    i = i + j + automata.postFix.length();
-                }
-
-            }else if(automata.p == '?'){
-                i++;
-            }else {
-                if(automata.p != s.charAt(i)){
-                    return false;
-                }
-                i++;
-            }
-
-
-            iterator.remove();
-        }
-
-        if(i != s.length()){
-            return false;
-        }
-
-        if(list.isEmpty()){
-            return true;
-        }else {
-            for (Automata automata : list) {
-                if(automata.p != '*' || !"".equals(automata.postFix)){
-                    return false;
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 1; j <= p.length(); j++) {
+                if (p.charAt(j - 1) != '*') {
+                    match[i][j] = match[i - 1][j - 1] && (p.charAt(j - 1) == '?' || s.charAt(i - 1) == p.charAt(j - 1));
+                } else {
+                    match[i][j] = match[i][j - 1] || match[i - 1][j];
                 }
             }
         }
-
-        return true;
+        return match[s.length()][p.length()];
     }
 
 
-    public static class Automata{
+    /**
+     * 空间复杂度为 O(m)的版本，只使用了一维数组
+     * @param s
+     * @param p
+     * @return
+     */
+    public boolean isMatchByDPV2(String s, String p) {
+        int m = s.length(), n = p.length();
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (p.charAt(i) == '*') {
+                count++;
+            }
+        }
+        if (count == 0 && m != n) {
+            return false;
+        } else if (n - count > m) {
+            return false;
+        }
 
-        public char p;
+        boolean[] match = new boolean[m + 1];
+        match[0] = true;
 
-        public String postFix;
+        for (int i = 0; i < n; i++) {
+            if (p.charAt(i) == '*') {
+                for (int j = 0; j < m; j++) {
+                    match[j + 1] = match[j] || match[j + 1];
+                }
+            } else {
+                for (int j = m - 1; j >= 0; j--) {
+                    match[j + 1] = (p.charAt(i) == '?' || p.charAt(i) == s.charAt(j)) && match[j];
+                }
+                match[0] = false;
+            }
+        }
+        return match[m];
     }
 
     public static void main(String[] args) {
@@ -121,13 +84,13 @@ public class WildcardMatching {
         WildcardMatching matching = new WildcardMatching();
 
         //System.out.println(matching.isMatch("aab", "*ab"));
-        System.out.println(matching.isMatch("aa", "a**"));
+        //System.out.println(matching.isMatch("aa", "a**"));
         System.out.println(matching.isMatch("aaaa", "***a"));
 
         //System.out.println(matching.isMatch("abefcdgiescdfimde", "ab*cd?i*de"));
 
         //System.out.println(matching.isMatch("cb", "?a"));
-        System.out.println(matching.isMatch("adceb", "*a*b"));
+        //System.out.println(matching.isMatch("adceb", "*a*b"));
         //System.out.println(matching.isMatch("acdcb", "a*c?b"));
 
     }
