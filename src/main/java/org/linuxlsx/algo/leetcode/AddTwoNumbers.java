@@ -83,23 +83,4 @@ public class AddTwoNumbers {
         System.out.println(solution.addTwoNumbers(first, second));
 
     }
-
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int x) { val = x; }
-
-        @Override
-        public String toString() {
-
-            String tmp = "" + val ;
-
-            if(next != null){
-                tmp = tmp + " -> " + next.toString();
-            }
-
-            return tmp;
-        }
-    }
 }

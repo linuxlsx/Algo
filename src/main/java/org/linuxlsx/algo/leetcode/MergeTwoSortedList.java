@@ -72,15 +72,6 @@ public class MergeTwoSortedList {
 
     }
 
-    // Definition for singly-linked list.
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
-    }
 
 }
 
