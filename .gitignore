@@ -5,3 +5,4 @@ target/
 algs4-data/
 *.class
 *.swp
+.DS_Store
