@@ -2,6 +2,7 @@ package org.linuxlsx.algo.lru;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author rongruo.lsx
@@ -13,6 +14,7 @@ public class ConcurrentLRU<K, V> {
     private DoubleLinkList list = new DoubleLinkList();
     private int capacity;
     private Long expireTime;
+    private ReentrantReadWriteLock readWriteLock;
 
     public static void main(String[] args) {
 
@@ -38,6 +40,7 @@ public class ConcurrentLRU<K, V> {
         }
 
         this.capacity = capacity;
+        readWriteLock = new ReentrantReadWriteLock();
     }
 
     public ConcurrentLRU(int capacity, Long expireTime) {
@@ -51,20 +54,30 @@ public class ConcurrentLRU<K, V> {
 
         this.capacity = capacity;
         this.expireTime = expireTime;
+        readWriteLock = new ReentrantReadWriteLock();
     }
 
 
     public V get(K key) {
 
-        if (key != null && nodeMap.containsKey(key)) {
-            Node<K, V> node = nodeMap.get(key);
-            //将node移到队首
-            list.moveToHead(node);
+        readWriteLock.readLock().lock();
+        try{
 
-            return node.value;
+
+            if (key != null && nodeMap.containsKey(key)) {
+                Node<K, V> node = nodeMap.get(key);
+                //将node移到队首
+                list.moveToHead(node);
+
+                return node.value;
+            }
+
+            return null;
+        }finally {
+            readWriteLock.readLock().unlock();
         }
 
-        return null;
+
     }
 
     public void put(K key, V value) {
@@ -73,36 +86,59 @@ public class ConcurrentLRU<K, V> {
             return;
         }
 
-        if (nodeMap.containsKey(key)) {
-            //存在移到队首
-            Node<K,V> node = nodeMap.get(key);
-            list.moveToHead(node);
-        } else {
-            //说明是新增
-            Node<K, V> node = new Node<>(key, value, System.currentTimeMillis());
-            //添加之前判断下容量，如果超过了，删除队尾元素
-            while (list.size >= capacity) {
-                Node removeNode = list.removeLast();
-                if (removeNode != null) {
-                    nodeMap.remove(removeNode.key);
+        readWriteLock.writeLock().lock();
+        try{
+            if (nodeMap.containsKey(key)) {
+                //存在移到队首
+                Node<K,V> node = nodeMap.get(key);
+                list.moveToHead(node);
+            } else {
+                //说明是新增
+                Node<K, V> node = new Node<>(key, value, System.currentTimeMillis());
+                //添加之前判断下容量，如果超过了，删除队尾元素
+                while (list.size >= capacity) {
+                    Node removeNode = list.removeLast();
+                    if (removeNode != null) {
+                        nodeMap.remove(removeNode.key);
+                    }
                 }
-            }
 
-            list.add(node);
-            nodeMap.put(key, node);
+                list.add(node);
+                nodeMap.put(key, node);
+            }
+        }finally {
+            readWriteLock.writeLock().unlock();
         }
+
 
     }
 
     public void remove(K key) {
-        if (key != null && nodeMap.containsKey(key)) {
-            list.remove(nodeMap.get(key));
-            nodeMap.remove(key);
+
+        readWriteLock.writeLock().lock();
+
+        try {
+            if (key != null && nodeMap.containsKey(key)) {
+                list.remove(nodeMap.get(key));
+                nodeMap.remove(key);
+            }
+        }finally {
+            readWriteLock.writeLock().unlock();
         }
+
+
     }
 
     public int size() {
-        return list.size;
+
+        try {
+            readWriteLock.readLock().lock();
+            return list.size;
+        }finally {
+            readWriteLock.readLock().unlock();
+        }
+
+
     }
 
 
