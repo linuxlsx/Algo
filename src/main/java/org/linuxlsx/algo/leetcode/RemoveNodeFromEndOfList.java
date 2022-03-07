@@ -121,20 +121,6 @@ public class RemoveNodeFromEndOfList {
         return previousNode;
     }
 
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) { val = x; }
-
-        @Override
-        public String toString() {
-            return "ListNode{" +
-                    "val=" + val +
-                    '}';
-        }
-    }
-
     public static void main(String[] args) {
         ListNode listNode = new ListNode(1);
         ListNode listNode2 = new ListNode(2);

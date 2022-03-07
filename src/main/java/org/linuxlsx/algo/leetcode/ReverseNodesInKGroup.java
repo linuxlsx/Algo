@@ -97,7 +97,7 @@ public class ReverseNodesInKGroup {
 
 
         ReverseNodesInKGroup reverseNodesInKGroup = new ReverseNodesInKGroup();
-        ListNode listNode = reverseNodesInKGroup.reverseKGroup(one, 3);
+        ListNode listNode = reverseNodesInKGroup.reverseKGroup(one, 2);
 
 
         StringBuilder sb = new StringBuilder();
@@ -110,16 +110,5 @@ public class ReverseNodesInKGroup {
 
         System.out.println(sb.toString());
 
-    }
-
-
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
     }
 }
