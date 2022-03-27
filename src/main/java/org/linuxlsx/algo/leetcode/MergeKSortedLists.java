@@ -82,11 +82,45 @@ public class MergeKSortedLists {
         }
     }
 
+    public ListNode mergeKListsV3(ListNode[] lists) {
+        return splitAndSort(lists, 0, lists.length - 1);
+    }
+
+    public ListNode splitAndSort(ListNode[] lists, int start, int end){
+        if(start == end ){
+            return lists[start];
+        }
+
+        int mid = (start + end) / 2;
+        ListNode left = splitAndSort(lists, start, mid);
+        ListNode right = splitAndSort(lists, mid + 1, end);
+
+        return mergeV2(left, right);
+    }
+
+    public ListNode mergeV2(ListNode left, ListNode right){
+        ListNode dummyHead = new ListNode();
+        ListNode tail = dummyHead;
+
+        while(left != null && right != null){
+            if(left.val <= right.val){
+                tail.next = left;
+                left = left.next;
+            }else{
+                tail.next = right;
+                right = right.next;
+            }
+        }
+
+        tail.next = left == null ? right : left;
+        return dummyHead.next;
+    }
+
     public static void main(String[] args) {
 
         ListNode one = new ListNode(1);
-        ListNode two = new ListNode(2);
-        ListNode three = new ListNode(4);
+        ListNode two = new ListNode(4);
+        ListNode three = new ListNode(5);
 
         one.next = two;
         two.next = three;
@@ -98,11 +132,11 @@ public class MergeKSortedLists {
         four.next = five;
         five.next = six;
 
-        ListNode seven = new ListNode(3);
-        ListNode eight = new ListNode(8);
-        ListNode nine = new ListNode(9);
+        ListNode seven = new ListNode(2);
+        ListNode eight = new ListNode(6);
+        //ListNode nine = new ListNode(9);
         seven.next = eight;
-        eight.next = nine;
+        //eight.next = nine;
 
         ListNode[] listNodes = {one, four, seven};
 
@@ -110,7 +144,7 @@ public class MergeKSortedLists {
 
 
 
-        ListNode listNode = mergeKSortedLists.mergeKListsV2(listNodes);
+        ListNode listNode = mergeKSortedLists.mergeKListsV3(listNodes);
 
         StringBuilder sb = new StringBuilder();
 

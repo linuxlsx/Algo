@@ -2,6 +2,30 @@ package org.linuxlsx.algo.leetcode;
 
 public class RemoveDuplicatesFromSortedList2 {
 
+    public ListNode deleteDuplicatesV2(ListNode head) {
+        if(head == null){
+            return head;
+        }
+
+        ListNode dummyHead = new ListNode();
+        dummyHead.next = head;
+        ListNode curr = dummyHead;
+
+        while (curr.next != null && curr.next.next != null){
+            if(curr.next.val == curr.next.next.val){
+                int x = curr.next.val;
+                while (curr.next != null && curr.next.val == x){
+                    curr.next = curr.next.next;
+                }
+            }else {
+                curr = curr.next;
+            }
+        }
+
+        return dummyHead.next;
+
+    }
+
     public ListNode deleteDuplicates(ListNode head) {
 
         if(head == null){
