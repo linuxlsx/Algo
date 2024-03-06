@@ -104,6 +104,30 @@ public class TrappingRainWater {
         return ans;
     }
 
+    int trap2PointsByDp(int[] height){
+        int sum = 0;
+        int max_left = 0;
+        int[] max_right = new int[height.length];
+
+        for(int i = height.length - 2; i >= 0; i--) {
+            max_right[i] = Math.max(max_right[i+1], height[i+1]);
+        }
+
+        for (int i = 1; i < height.length - 1; i++){
+            max_left = Math.max(max_left, height[i-1]);
+            int min = Math.min(max_left, max_right[i]);
+
+            if (min > height[i]) {
+                sum += (min - height[i]);
+            }
+
+        }
+
+        return sum;
+
+    }
+
+
     public static void main(String[] args) {
         TrappingRainWater rainWater = new TrappingRainWater();
         System.out.println(rainWater.trap(new int[]{6, 4, 2, 0, 3, 2, 0, 3, 1, 4, 5, 3, 2, 7, 5, 3, 0, 1, 2, 1, 3, 4, 6, 8, 1, 3}));

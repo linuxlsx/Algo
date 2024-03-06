@@ -77,6 +77,47 @@ public class SearchInRotatedSortedArray {
         return nums[left] == target ? left : -1;
     }
 
+    public int searchV3(int[] nums, int target) {
+        int n = nums.length;
+        if (n == 0) {
+            return -1;
+        }
+        if (n == 1) {
+            return nums[0] == target ? 0 : -1;
+        }
+        int l = 0, r = n - 1;
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            // 6
+            // 4 5 6 7 1 2 3
+
+            if (nums[0] <= nums[mid]) {
+                //到这里说明左半部分是有序的
+                if (nums[0] <= target && target < nums[mid]) {
+                    //如果目标在左半部分，则在左半部分查找
+                    r = mid - 1;
+                } else {
+                    //否则在有半部分查找
+                    l = mid + 1;
+                }
+            } else {
+                //到这里说明右半部分是有序的
+                if (nums[mid] < target && target <= nums[n - 1]) {
+                    //如果目标在右半部分，则在右半部分查找
+                    l = mid + 1;
+                } else {
+                    //否则在左半部分查找
+                    r = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
     /**
      *  转换以后的数组被二分以后，只可能有两种情况：一个是完全有序的子数组，另外一个是部分有序的数组（先升序，到临界点，再升序）。
      *  有序的数组 nums[end] > nums[start] , 部分有序的数组  nums[end] < nums[start]
@@ -188,6 +229,7 @@ public class SearchInRotatedSortedArray {
 //        System.out.println(sort.search(new int[]{1, 3, 5}, 2));
 //        System.out.println(sort.search(new int[]{3, 5}, 3));
 //        System.out.println(sort.search(new int[]{3, 5}, 5));
-        System.out.println(sort.search(new int[]{7,8,1,2,3,4,5,6}, 2));
+        //System.out.println(sort.search(new int[]{7,8,1,2,3,4,5,6}, 2));
+        System.out.println(sort.searchV3(new int[]{5,6,7,0,1,2,3,4}, 7));
     }
 }
