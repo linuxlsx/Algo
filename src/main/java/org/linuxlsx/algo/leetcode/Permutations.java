@@ -39,6 +39,19 @@ public class Permutations {
         }
     }
 
+    /**
+     * 回溯算法的模板
+     *
+     * 终止条件
+     *
+     * 返回结果的集合  中间结果记录
+     *
+     * 状态增加
+     * 递归调用
+     * 状态恢复
+     *
+     */
+
     public static void main(String[] args) {
 
         Permutations permutations = new Permutations();

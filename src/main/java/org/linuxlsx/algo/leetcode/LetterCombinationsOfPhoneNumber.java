@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class LetterCombinationsOfPhoneNumber {
 
-    private Map<String, List<String>> numberLetterMap = new HashMap<String, List<String> >();
+    private Map<String, List<String>> numberLetterMap = new HashMap<String, List<String>>();
 
     {
         numberLetterMap.put("1", Arrays.asList(new String[]{}));
@@ -34,19 +34,20 @@ public class LetterCombinationsOfPhoneNumber {
     /**
      * 该问题可以认为多个字符数组做笛卡尔积。具体java 的笛卡尔积实现说明可参见
      * <a href="https://www.maxith.com/2017/08/30/cartesian-product/">java 算法系列 - 笛卡尔积算法</a>
-     *
+     * <p>
      * 实现中采用递归来实现 DFS 的遍历。
+     *
      * @param digits
      * @return
      */
     public List<String> letterCombinations(String digits) {
 
-        if (digits == null || digits.length() == 0){
+        if (digits == null || digits.length() == 0) {
             return new ArrayList<String>();
         }
 
-        if(digits.length() == 1){
-            return  numberLetterMap.get(digits);
+        if (digits.length() == 1) {
+            return numberLetterMap.get(digits);
         }
 
         List<List<String>> lists = new ArrayList<List<String>>();
@@ -112,6 +113,7 @@ public class LetterCombinationsOfPhoneNumber {
 
     /**
      * 递归的解法是 DFS式的遍历，可以通过使用队列来完成 BFS 式的遍历
+     *
      * @param digits
      * @return
      */
@@ -119,26 +121,63 @@ public class LetterCombinationsOfPhoneNumber {
 
         LinkedList<String> ans = new LinkedList<String>();
 
-        if (digits.length()==0){
+        if (digits.length() == 0) {
             return ans;
         }
 
-        String[] mapping = new String[] {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        String[] mapping = new String[]{"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
         ans.add("");
-        for(int i =0; i<digits.length();i++){
+        for (int i = 0; i < digits.length(); i++) {
             int x = Character.getNumericValue(digits.charAt(i));
 
             //最终的结果字符串的长度是和 输入数字的长度是一致的，
             //所以这个地方可以通过判断长度的方式来检查是否需要进行合并
-            while(ans.peek().length()==i && !"".equals(mapping[x])){
+            while (ans.peek().length() == i && !"".equals(mapping[x])) {
                 String t = ans.remove();
-                for(char s : mapping[x].toCharArray()) {
+                for (char s : mapping[x].toCharArray()) {
                     ans.add(t + s);
                 }
             }
         }
         return ans;
     }
+
+    //==============================解法三=====================================
+
+    /**
+     * 使用回溯法
+     *
+     * @param digits
+     * @return
+     */
+    public List<String> letterCombinationsV23(String digits) {
+
+        List<String> results = new ArrayList<>();
+        if (digits == null || digits.length() == 0) {
+            return results;
+        }
+
+        backtrack(results, digits, 0, new StringBuilder());
+
+        return results;
+    }
+
+    public void backtrack(List<String> results, String digits, int index, StringBuilder sb) {
+        if (index == digits.length()) {
+            results.add(sb.toString());
+            return;
+        }
+
+        String d = "" + digits.charAt(index);
+
+        List<String> letters = numberLetterMap.get(d);
+        for (int i = 0; i < letters.size(); i++) {
+            sb.append(letters.get(i));
+            backtrack(results, digits, index + 1, sb);
+            sb.deleteCharAt(index);
+        }
+    }
+
 
     public static void main(String[] args) {
         LetterCombinationsOfPhoneNumber letterCombinationsOfPhoneNumber = new LetterCombinationsOfPhoneNumber();

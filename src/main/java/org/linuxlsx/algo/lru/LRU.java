@@ -7,9 +7,9 @@ import java.util.LinkedList;
  * @author rongruo.lsx
  * @date 2022/3/7
  */
-public class LRU {
+public class LRU<K,V> {
 
-    private HashMap<Integer, Node> map;
+    private HashMap<K, Node<K, V>> map;
     private LinkedList<Node> cache;
     private int capacity; // 容量
 
@@ -20,26 +20,24 @@ public class LRU {
     }
 
     // LRU的get方法：在OS页面调度中，相当于使用了某页
-    public int get(int key) {
+    public V get(K key) {
         if (!map.containsKey(key)) { // 找不到该页
-            return -1;
+            return null;
         }
 
-        int val = map.get(key).val;
+        V val = map.get(key).val;
         // 重新放入cache，相当于把该页的位置提前
         this.put(key, val);
         return val;
     }
 
-    public void put(int key, int val) {
+    public void put(K key, V val) {
         // create new Node
         Node temp = new Node(key, val);
 
         if (map.containsKey(key)) { //如果已经存在了
             cache.remove(map.get(key));
-            cache.addFirst(temp);
-            // 重点：别忘了更新hashtable
-            map.put(key, temp);
+
         } else { // cache已满，需要移除最后一个并加入当前
             if (capacity == cache.size()) {
                 /**
@@ -48,14 +46,14 @@ public class LRU {
                  * 如果 Node 结构中只存储 val，那么我们就无法得知 key 是什么，就无法删除 map 中的键，造成错误。
                  */
                 Node last = cache.removeLast();
-                // 重点：勿忘更新hashtable
+                // 重点：勿忘更新hashmap
                 map.remove(last.key);
             }
-            // 加入当前
-            cache.addFirst(temp);
-            // 更新cache
-            map.put(key, temp);
         }
+
+        // 重点：别忘了更新hashmap
+        cache.addFirst(temp);
+        map.put(key, temp);
 
     }
 
@@ -63,7 +61,7 @@ public class LRU {
         // 具体例子来看看 LRU 算法怎么工作
 
         /* 缓存容量为 2 */
-        LRU cache = new LRU(2);
+        LRU cache = new LRU<Integer, Integer>(2);
         // 你可以把 cache 理解成一个队列
         // 假设左边是队头，右边是队尾
         // 最近使用的排在队头，久未使用的排在队尾
@@ -92,11 +90,12 @@ public class LRU {
     }
 
     /* Node节点数据结构 */
-    class Node {
-        public int key, val;
+    class Node<K, V> {
+        public K key;
+        public V val;
         public Node next;
 
-        Node(int k, int v) {
+        Node(K k, V v) {
             this.key = k;
             this.val = v;
         }

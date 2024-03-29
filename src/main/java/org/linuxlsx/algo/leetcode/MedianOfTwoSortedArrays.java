@@ -109,9 +109,62 @@ public class MedianOfTwoSortedArrays {
         throw new IllegalArgumentException();
     }
 
+    /**
+     * 查找两个排序数组的中位数，其实可以转化成找到前 k 小的元素位置
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public double findMedianSortedArraysV3(int[] nums1, int[] nums2) {
+
+        // 第一步 将长度小的放到前面
+        if(nums1.length > nums2.length){
+            int[] tmp = nums2;
+            nums2 = nums1;
+            nums1 = tmp;
+        }
+
+        // 确定 k 的大小
+        int k = (nums1.length + nums2.length + 1) / 2;
+        int left = 0;
+        int right = nums1.length;
+
+        // m1 是数组1 中位数
+        int m1 = 0;
+        // m2 是数组2 中位数
+        int m2 = 0;
+
+        while (left < right) {
+
+            m1 = left + (right - left) / 2;
+            m2 = k - m1;
+
+            // 如果数组1的中位数小于数组2的中位数-1
+            if (nums1[m1] < nums2[m2 - 1]) {
+                left = m1 + 1;
+            }else {
+                right = m1;
+            }
+        }
+
+        m1 = left;
+        m2 = k - m1;
+
+        int c1 = Math.max(m1 <= 0 ? Integer.MIN_VALUE : nums1[m1-1] , m2 <= 0 ? Integer.MIN_VALUE : nums2[m2 - 1]);
+
+        if ((nums1.length + nums2.length) % 2== 1){
+            return (double) c1;
+        }
+
+        int c2 = Math.min(m1 >= nums1.length ? Integer.MAX_VALUE : nums1[m1], m2 >= nums2.length ? Integer.MAX_VALUE : nums2[m2]);
+
+
+        return ((double) (c1 + c2)) / 2;
+    }
+
     public static void main(String[] args) {
         MedianOfTwoSortedArrays arrays = new MedianOfTwoSortedArrays();
 
-        System.out.println(arrays.findMedianSortedArraysV2(new int[]{1,3}, new int[]{2,4}));
+        System.out.println(arrays.findMedianSortedArraysV3(new int[]{1,3}, new int[]{2,4,5,6,7,8}));
     }
 }

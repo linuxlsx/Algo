@@ -14,6 +14,7 @@ public class IntegerToRoman {
     /**
      * 罗马计数法:  I(1)、V(5)、X(10)、L(50)、C(100)、D(500)、M(1000)
      * 1 : I, 2 : II, 3 : III, 4 : IV , 5 : V, 6 : VI, 7 : VII , 8 : VIII, 9 : IX , 10 : X
+     *
      * @param num
      * @return
      */
@@ -24,14 +25,14 @@ public class IntegerToRoman {
         int index = 0;
         while (tmp > 0) {
 
-            if(tmp >= step[index]){
+            if (tmp >= step[index]) {
 
                 //直接按位整除得到该位的数值
                 int d = tmp / step[index];
                 //直接获得该数值的罗马表示
                 sb.append(convert(d, symbol[index]));
                 tmp -= d * step[index];
-            }else {
+            } else {
                 index++;
             }
 
@@ -43,6 +44,7 @@ public class IntegerToRoman {
     /**
      * 将数值和对应的罗马单位转为具体的罗马数值表示
      * 这里会涉及到 D L V 的转换
+     *
      * @param d
      * @param c
      * @return
@@ -51,11 +53,11 @@ public class IntegerToRoman {
 
         switch (d) {
             case 1:
-                return  "" + c ;
+                return "" + c;
             case 2:
-                return  "" + c + c;
+                return "" + c + c;
             case 3:
-                return  "" + c + c + c;
+                return "" + c + c + c;
             case 4:
                 return c + "" + getUpperChar(c);
             case 5:
@@ -75,6 +77,7 @@ public class IntegerToRoman {
 
     /**
      * 获得指定罗马数字大一单位的罗马数字
+     *
      * @param c
      * @return
      */
@@ -101,19 +104,18 @@ public class IntegerToRoman {
     /**
      * 以下是 左耳朵耗子的实现，通过将 900, 400 等这种需要特殊转换的数字也同其他标准的放到一起，
      * 这样能够达到代码简化的目的。 但是实际运行的时候 效率(102ms)稍稍不及自己实现的版本(92ms)。主要是循环次数会多一些
-     *
      **/
 
-    String[] symbolStr =   {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
-    int[]  value    =   {1000,900,500,400, 100, 90,  50, 40,  10, 9,   5,  4,   1};
+    String[] symbolStr = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+    int[] value = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
 
-    public String intToRomanV2(int num){
+    public String intToRomanV2(int num) {
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; num != 0 ; i++){
+        for (int i = 0; num != 0; i++) {
 
-            while (num >= value[i]){
+            while (num >= value[i]) {
                 num -= value[i];
                 sb.append(symbolStr[i]);
             }
@@ -124,7 +126,7 @@ public class IntegerToRoman {
 
     public static void main(String[] args) {
         IntegerToRoman toRoman = new IntegerToRoman();
-        System.out.println(toRoman.intToRomanV2(214));
+        System.out.println(toRoman.intToRomanV2(3999));
     }
 
 }

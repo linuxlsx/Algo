@@ -48,7 +48,7 @@ public class AddTwoNumbers {
 
             sum += stepIn;
 
-            stepIn = (sum + stepIn) / 10;
+            stepIn = (sum) / 10;
             curr.next = new ListNode(sum % 10);
 
             curr = curr.next;

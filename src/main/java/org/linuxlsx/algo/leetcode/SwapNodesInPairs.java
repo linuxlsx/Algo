@@ -42,6 +42,35 @@ public class SwapNodesInPairs {
         return alwaysHead;
     }
 
+    public ListNode swapPairs4(ListNode head) {
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+        ListNode temp = dummyHead;
+        while (temp.next != null && temp.next.next != null) {
+            ListNode node1 = temp.next;
+            ListNode node2 = temp.next.next;
+            temp.next = node2;
+            node1.next = node2.next;
+            node2.next = node1;
+            temp = node1;
+        }
+        return dummyHead.next;
+    }
+
+
+
+    public ListNode swapPairs2(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode next = head.next;
+        head.next = swapPairs2(next.next);
+        next.next = head;
+        return next;
+    }
+
+
+
     public static void main(String[] args) {
         ListNode one = new ListNode(1);
         ListNode two = new ListNode(2);
@@ -64,7 +93,7 @@ public class SwapNodesInPairs {
 
 
         SwapNodesInPairs swapNodesInPairs = new SwapNodesInPairs();
-        ListNode listNode = swapNodesInPairs.swapPairs(one);
+        ListNode listNode = swapNodesInPairs.swapPairs4(one);
 
 
         StringBuilder sb = new StringBuilder();

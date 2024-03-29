@@ -64,6 +64,6 @@ public class CombinationSumII {
         CombinationSumII sumII = new CombinationSumII();
 
         System.out.println(sumII.combinationSum2(new int[]{10,1,2,7,6,1,5}, 8));
-        System.out.println(sumII.combinationSum2(new int[]{2,5,2,1,2}, 5));
+        System.out.println(sumII.combinationSum2(new int[]{2,5,2,1,2}, 7));
     }
 }

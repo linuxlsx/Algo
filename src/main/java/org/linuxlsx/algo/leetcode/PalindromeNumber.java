@@ -8,16 +8,17 @@ public class PalindromeNumber {
 
     /**
      * 思路: 类似于判断回文字符串, 将数字转为字符串，然后从两端开始判断字符是否相同。
-     *      注意 负数肯定不是回文整数
+     * 注意 负数肯定不是回文整数
      *
-     *      <ul>
-     *          <li>算法复杂度: O(n) 需要遍历一次</li>
-     *          <li>空间复杂度: O(n) 需要借助额外存储</li>
-     *      </ul>
+     * <ul>
+     *     <li>算法复杂度: O(n) 需要遍历一次</li>
+     *     <li>空间复杂度: O(n) 需要借助额外存储</li>
+     * </ul>
+     * <p>
+     * 实际这种解法并不满足题目要求, 题目要求是不能使用额外的空间
      *
-     *      实际这种解法并不满足题目要求, 题目要求是不能使用额外的空间
-     * @param x     需要判断的数字
-     * @return      是否是回文数字
+     * @param x 需要判断的数字
+     * @return 是否是回文数字
      */
     public boolean isPalindrome(int x) {
 
@@ -53,6 +54,7 @@ public class PalindromeNumber {
      *     <li>算法复杂度: O(n) 需要遍历一次</li>
      *     <li>空间复杂度: O(1) 只需要3个局部变量</li>
      * </ul>
+     *
      * @param x
      * @return
      * @see <a href="https://github.com/haoel/leetcode/blob/master/algorithms/cpp/palindromeNumber">palindromeNumber</a>
@@ -77,6 +79,22 @@ public class PalindromeNumber {
             len /= 100;
         }
         return true;
+    }
+
+    boolean isPalindromeV3(int x) {
+        if (x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        }
+
+
+        int revertedNumber = 0;
+        while (x > revertedNumber) {
+            revertedNumber = revertedNumber * 10 + x % 10;
+            x /= 10;
+        }
+
+
+        return x == revertedNumber || x == revertedNumber / 10;
     }
 
 

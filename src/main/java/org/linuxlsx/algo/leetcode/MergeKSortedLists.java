@@ -11,17 +11,18 @@ public class MergeKSortedLists {
     /**
      * 笨办法1: 根据 MergeTwoSortedList中的方法，每次都是两两的merge , 得到最终的结果
      * 笨办法2: 将所有的元素都保存到一个列表中，然后对这个列表做排序
+     *
      * @param lists
      * @return
      */
     public ListNode mergeKLists(ListNode[] lists) {
 
-        if(lists.length == 1){
+        if (lists.length == 1) {
             return lists[0];
         }
 
         ListNode first = lists[0];
-        for (int i = 1; i < lists.length ; i++) {
+        for (int i = 1; i < lists.length; i++) {
             first = mergeTwoLists(first, lists[i]);
         }
 
@@ -37,13 +38,13 @@ public class MergeKSortedLists {
         ListNode first = l1;
         ListNode second = l2;
 
-        while (first != null || second != null){
+        while (first != null || second != null) {
 
-            if(first != null && (second == null || first.val <= second.val)){
+            if (first != null && (second == null || first.val <= second.val)) {
                 node.next = first;
                 node = first;
                 first = first.next;
-            }else if(second != null) {
+            } else if (second != null) {
                 node.next = second;
                 node = second;
                 second = second.next;
@@ -54,30 +55,51 @@ public class MergeKSortedLists {
         return head.next;
     }
 
-    public  ListNode mergeKListsV2(ListNode[] lists){
-        return partition(lists,0,lists.length-1);
+    public ListNode mergeTwoListsV2(ListNode a, ListNode b) {
+        if (a == null || b == null) {
+            return a != null ? a : b;
+        }
+        ListNode head = new ListNode(0);
+        ListNode tail = head, aPtr = a, bPtr = b;
+        while (aPtr != null && bPtr != null) {
+            if (aPtr.val < bPtr.val) {
+                tail.next = aPtr;
+                aPtr = aPtr.next;
+            } else {
+                tail.next = bPtr;
+                bPtr = bPtr.next;
+            }
+            tail = tail.next;
+        }
+        tail.next = (aPtr != null ? aPtr : bPtr);
+        return head.next;
     }
 
-    public  ListNode partition(ListNode[] lists,int s,int e){
-        if(s==e)  return lists[s];
-        if(s<e){
-            int q=(s+e)/2;
-            ListNode l1=partition(lists,s,q);
-            ListNode l2=partition(lists,q+1,e);
-            return merge(l1,l2);
-        }else
+
+    public ListNode mergeKListsV2(ListNode[] lists) {
+        return partition(lists, 0, lists.length - 1);
+    }
+
+    public ListNode partition(ListNode[] lists, int s, int e) {
+        if (s == e) return lists[s];
+        if (s < e) {
+            int q = (s + e) / 2;
+            ListNode l1 = partition(lists, s, q);
+            ListNode l2 = partition(lists, q + 1, e);
+            return merge(l1, l2);
+        } else
             return null;
     }
 
     //This function is from Merge Two Sorted Lists.
-    public ListNode merge(ListNode l1,ListNode l2){
-        if(l1==null) return l2;
-        if(l2==null) return l1;
-        if(l1.val<l2.val){
-            l1.next=merge(l1.next,l2);
+    public ListNode merge(ListNode l1, ListNode l2) {
+        if (l1 == null) return l2;
+        if (l2 == null) return l1;
+        if (l1.val < l2.val) {
+            l1.next = merge(l1.next, l2);
             return l1;
-        }else{
-            l2.next=merge(l1,l2.next);
+        } else {
+            l2.next = merge(l1, l2.next);
             return l2;
         }
     }
@@ -86,8 +108,8 @@ public class MergeKSortedLists {
         return splitAndSort(lists, 0, lists.length - 1);
     }
 
-    public ListNode splitAndSort(ListNode[] lists, int start, int end){
-        if(start == end ){
+    public ListNode splitAndSort(ListNode[] lists, int start, int end) {
+        if (start == end) {
             return lists[start];
         }
 
@@ -98,15 +120,15 @@ public class MergeKSortedLists {
         return mergeV2(left, right);
     }
 
-    public ListNode mergeV2(ListNode left, ListNode right){
+    public ListNode mergeV2(ListNode left, ListNode right) {
         ListNode dummyHead = new ListNode();
         ListNode tail = dummyHead;
 
-        while(left != null && right != null){
-            if(left.val <= right.val){
+        while (left != null && right != null) {
+            if (left.val <= right.val) {
                 tail.next = left;
                 left = left.next;
-            }else{
+            } else {
                 tail.next = right;
                 right = right.next;
             }
@@ -143,13 +165,12 @@ public class MergeKSortedLists {
         MergeKSortedLists mergeKSortedLists = new MergeKSortedLists();
 
 
-
         ListNode listNode = mergeKSortedLists.mergeKListsV3(listNodes);
 
         StringBuilder sb = new StringBuilder();
 
-        while (listNode != null){
-            sb.append(listNode.val).append( " -> ");
+        while (listNode != null) {
+            sb.append(listNode.val).append(" -> ");
 
             listNode = listNode.next;
         }

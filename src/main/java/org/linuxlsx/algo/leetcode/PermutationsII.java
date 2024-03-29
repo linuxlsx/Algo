@@ -1,9 +1,6 @@
 package org.linuxlsx.algo.leetcode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Solution of <a href="https://leetcode.com/problems/permutations-ii/">PermutationsII</a>
@@ -58,6 +55,28 @@ public class PermutationsII {
                 }
             }
         }
+    }
+
+    public void backtrack(int[] nums, List<List<Integer>> ans, int idx, List<Integer> perm, boolean[] visited) {
+
+        if (idx == nums.length){
+            ans.add(new ArrayList<>(perm));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (visited[i] || (i > 0 && nums[i] == nums[i-1] && !visited[i-1])){
+                continue;
+            }
+
+            perm.add(nums[i]);
+            visited[i]=true;
+            backtrack(nums, ans, idx + 1, perm, visited);
+            visited[i]=false;
+            perm.remove(idx);
+
+        }
+
     }
 
     public static void main(String[] args) {

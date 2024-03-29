@@ -84,6 +84,34 @@ public class StringToInteger {
 
     }
 
+    public int myAtoi2(String str) {
+
+        int sign = 1;
+        int ans = 0;
+        int index = 0;
+
+        char[] array = str.toCharArray();
+        while (index < array.length && array[index] == ' ') {
+            index++;
+        }
+
+        if (index < array.length && (array[index] == '-' || array[index] == '+')){
+            sign = array[index++] == '-' ? -1 : 1;
+        }
+
+        while (index < array.length && array[index] >= '0' && array[index] <= '9'){
+            int d = array[index++] - '0';
+            if (ans > ((Integer.MAX_VALUE - d) / 10)) {
+                return sign==1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            }
+
+            ans = ans * 10 + d;
+        }
+
+        return ans * sign;
+
+    }
+
     public static void main(String[] args) {
 
         StringToInteger sti = new StringToInteger();
